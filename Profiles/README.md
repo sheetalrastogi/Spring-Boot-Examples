@@ -1010,8 +1010,73 @@ You can adjust latency, downloadThroughput, and uploadThroughput for different n
 Optionally, set connectionType for more realistic emulation (Network.ConnectionType.CELLULAR3G, WIFI, etc.).
 
 
-#37.  
-#38.
-#39.
-#40.
+#37.  import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MobileEmulationTest {
+    public static void main(String[] args) {
+        // Set the path to chromedriver if needed
+        // System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "Pixel 2"); // or "iPhone X", "Nexus 5", etc.
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("https://www.example.com");
+
+        // Your test code here
+
+        driver.quit();
+    }
+}
+
+==================
+
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.net.URL;
+
+public class SauceLabsChromeExample {
+    public static void main(String[] args) throws Exception {
+        // Sauce Labs credentials
+        String sauceUserName = "YOUR_SAUCE_USERNAME";
+        String sauceAccessKey = "YOUR_SAUCE_ACCESS_KEY";
+
+        // Sauce Labs URL
+        String sauceURL = "https://" + sauceUserName + ":" + sauceAccessKey + "@ondemand.saucelabs.com/wd/hub";
+
+        // Set Chrome Options
+        ChromeOptions options = new ChromeOptions();
+        options.setCapability("platformName", "Windows 10");
+        options.setCapability("browserVersion", "latest");
+
+        // Sauce Labs capabilities (optional, for reporting)
+        options.setCapability("sauce:options", new java.util.HashMap<String, Object>() {{
+            put("build", "Sample Build 001");
+            put("name", "Sample Sauce Chrome Test");
+        }});
+
+        // Instantiate RemoteWebDriver with Sauce Labs URL and ChromeOptions
+        WebDriver driver = new RemoteWebDriver(new URL(sauceURL), options);
+
+        // Your test code
+        driver.get("https://www.example.com");
+        System.out.println(driver.getTitle());
+
+        driver.quit();
+    }
+}
+
+
+
 
